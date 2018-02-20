@@ -29,18 +29,18 @@ public class GuessServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		int numero = Integer.parseInt(req.getParameter("numero"));
-		
-		if(numero > numero_obj.getNumeroMaior() || numero < numero_obj.getNumeroMenor()) {
+		if(numero_obj.numeroPerto() && !numero_obj.thisNumero(numero)) {
+			req.setAttribute("message","Você perdeu! Qualquer criança seria capaz de adivinhar que o número é "+numero_obj.getNumeroAleatorio()+".");
+			numero_obj.incrementoTentativas();
+			numero_obj.zerarNumero();
+			req.getRequestDispatcher("theend.jsp").forward(req, resp);
+		}else if(numero > numero_obj.getNumeroMaior() || numero < numero_obj.getNumeroMenor()) {
 			req.setAttribute("message","Digite um numero entre "+numero_obj.getNumeroMenor()+" "+numero_obj.getNumeroMaior());
 			numero_obj.incrementoTentativas();
 			req.setAttribute("count", numero_obj.getCount());
 			req.getRequestDispatcher("index.jsp").forward(req, resp);
-		}else if(numero_obj.getNumeroAleatorio() -1 == numero || numero_obj.getNumeroAleatorio() +1 == numero ) {
-			req.setAttribute("message","Você perdeu! Qualquer criança seria capaz de adivinhar que o número é "+numero_obj.getNumeroAleatorio()+".");
-			numero_obj.incrementoTentativas();
-			req.setAttribute("count", numero_obj.getCount());
-			req.getRequestDispatcher("theend.jsp").forward(req, resp);
 		}else if(numero_obj.thisNumero(numero)) {
+			numero_obj.zerarNumero();
 			req.setAttribute("message", "Parabéns, você acertou");
 			req.getRequestDispatcher("theend.jsp").forward(req, resp);
 		}else {

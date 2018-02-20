@@ -8,6 +8,12 @@ public class Numero {
 	private int numeroMenor = 0;
 	private int count = 0;
 	
+	public void zerarNumero() {
+		this.numeroMenor = 0;
+		this.numeroMaior = 100;
+		this.count =0;
+		this.numeroAleatorio = gerarNumero();
+	}
 	public boolean thisNumero(int numero) {
 		if(this.numeroAleatorio == numero) {
 			return true;
@@ -17,6 +23,13 @@ public class Numero {
 			}else if(numero > numeroMenor && numero < numeroAleatorio) {
 				numeroMenor = numero;
 			}
+			return false;
+		}
+	}
+	public boolean numeroPerto() {
+		if(numeroMaior - numeroMenor == 2) {
+			return true;
+		}else {
 			return false;
 		}
 	}
